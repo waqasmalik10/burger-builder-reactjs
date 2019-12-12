@@ -40,7 +40,7 @@ const burgerIngredients = (props) => {
     return ingredients;
 }
 
-burgerIngredients.PropTypes = {
+burgerIngredients.propTypes = {
     type: PropTypes.string.isRequired
 }
 
