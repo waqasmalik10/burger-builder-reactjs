@@ -18,7 +18,18 @@ class BurgerBuilder extends Component {
             cheese: 0,
             meat: 0
         },
-        totalPrice: 4
+        totalPrice: 4,
+        purchaseable: false
+    }
+
+    updatePurchaseState = (ingredients) => {
+        // const ingredients = {
+        //     ...this.state.ingredients
+        // }
+        const sum = Object.keys(ingredients).map(ingredient => {
+            return ingredients[ingredient]
+        }).reduce( (sum, el) => {return sum+el}, 0);
+        this.setState({purchaseable: sum>0});
     }
 
     addIngredientHandler = (type) => {
@@ -26,17 +37,19 @@ class BurgerBuilder extends Component {
         const newCount = this.state.ingredients[type] + 1;
         const updatedIngredients = {...this.state.ingredients}
         updatedIngredients[type] = newCount;
-        this.setState({ingredients: updatedIngredients, totalPrice: newTotalPrice})
+        this.setState({ingredients: updatedIngredients, totalPrice: newTotalPrice});
+        this.updatePurchaseState(updatedIngredients);
     }
 
     removeIngredientHandler = (type) => {
+        const updatedIngredients = {...this.state.ingredients};
         if(this.state.ingredients[type] > 0) {
             const newTotalPrice = this.state.totalPrice - INGREDIENT_PRICES[type];
             const newCount = this.state.ingredients[type] - 1;
-            const updatedIngredients = {...this.state.ingredients};
             updatedIngredients[type] = newCount;
             this.setState({ingredients: updatedIngredients, totalPrice: newTotalPrice});
         }
+        this.updatePurchaseState(updatedIngredients);
     }
 
     render() {
@@ -53,7 +66,8 @@ class BurgerBuilder extends Component {
                     addIngredient={this.addIngredientHandler} 
                     removeIngredient={this.removeIngredientHandler}
                     disabledInfo={disabledInfo}
-                    totalPrice={this.state.totalPrice}/>
+                    totalPrice={this.state.totalPrice}
+                    purchaseable={this.state.purchaseable}/>
             </Aux>
         )
     }
