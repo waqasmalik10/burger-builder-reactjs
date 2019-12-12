@@ -1,7 +1,8 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import classes from 'BurgerIngredients.module.css'
 
-const BurgerIngredients = (props) => {
+const burgerIngredients = (props) => {
     let ingredients = null;
 
     switch(props.type) {
@@ -39,5 +40,8 @@ const BurgerIngredients = (props) => {
     return ingredients;
 }
 
+burgerIngredients.PropTypes = {
+    type: PropTypes.string.isRequired
+}
 
-export default BurgerIngredients;
+export default burgerIngredients;
