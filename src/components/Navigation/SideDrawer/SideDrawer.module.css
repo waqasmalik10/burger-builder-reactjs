@@ -12,6 +12,10 @@
     transition: transform 0.3s ease-in-out;
 }
 
+.SideDrawer nav {
+    margin-top: 20px;
+}
+
 .Open {
     transform: translateX(0);
 }
