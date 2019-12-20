@@ -8,6 +8,10 @@
     flex-flow: column;
 }
 
+.NavigationItems a:hover, .NavigationItems a:active, .NavigationItems a.active {
+
+}
+
 @media (min-width: 500px) {
     .NavigationItems {
         flex-flow: row;
