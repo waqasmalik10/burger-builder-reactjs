@@ -87,19 +87,19 @@ class ContactData extends Component {
 
     checkValidity = (value, rules) => {
         console.log(value, rules);
-        let isValid = false;
-        if(rules.required) {
-            isValid = (value.trim() !== '');
+        let isValid = true;
+        if(rules && rules.required) {
+            isValid = (value.trim() !== '' &&  isValid);
         }
 
-        if(isValid && rules.minLength) {
-            isValid = (value.trim().length >= 5)
+        if(rules && rules.minLength) {
+            isValid = (value.trim().length >= 5 &&  isValid)
         }
 
-        if(isValid && rules.maxLength) {
-            isValid = (value.trim().length <=5)
+        if(rules && rules.maxLength) {
+            isValid = (value.trim().length <=5 &&  isValid)
         }
-        
+
         return isValid;
     }
 
@@ -173,7 +173,9 @@ class ContactData extends Component {
                             elementtype={formElement.config.elementType}
                             elementConfig={formElement.config.elementConfig}
                             value={formElement.config.value} 
-                            changed={(event) => this.inputChangedHanlder(event, formElement.id)}/>
+                            changed={(event) => this.inputChangedHanlder(event, formElement.id)}
+                            shouldValidate={formElement.config.validation}
+                            invalid={!formElement.config.valid}/>
                     })
                 }
                     <Button btnType="Success">ORDER</Button>
