@@ -14,6 +14,7 @@ class ContactData extends Component {
                     type: 'text',
                     placeholder: 'Your Name'
                 }
+                ,value: ''
             },
             email: {
                 elementType: 'input',
@@ -21,6 +22,7 @@ class ContactData extends Component {
                     type: 'text',
                     placeholder: 'Your Email'
                 }
+                ,value: ''
             },
             street: {
                 elementType: 'input',
@@ -28,6 +30,7 @@ class ContactData extends Component {
                     type: 'text',
                     placeholder: 'Your Address'
                 }
+                ,value: ''
             },
             postalCode: {
                 elementType: 'input',
@@ -35,6 +38,7 @@ class ContactData extends Component {
                     type: 'text',
                     placeholder: 'Your Postal'
                 }
+                ,value: ''
             },
             country: {
                 elementType: 'input',
@@ -42,6 +46,7 @@ class ContactData extends Component {
                     type: 'text',
                     placeholder: 'Your Country'
                 }
+                ,value: ''
             },
             deliveryMethod: {
                 elementType: 'select',
@@ -51,6 +56,7 @@ class ContactData extends Component {
                         {value: 'cheapest', displayValue: 'Cheapest'}
                     ]
                 }
+                ,value: ''
             }
         },
         loading: false
@@ -60,9 +66,15 @@ class ContactData extends Component {
         event.preventDefault();
         console.log(this.props.ingredients);
         this.setState({loading: true});
+
+        const formData = {};
+        for(let formElementIdentifier in this.state.orderForm) {
+            formData[formElementIdentifier] = this.state.orderForm[formElementIdentifier].value;
+        }
         const order = {
             ingredients: this.props.ingredients,
             price: this.props.price,
+            orderData: formData,
             customer: {
                 name: 'Waqas Malik',
                 address: {
@@ -85,6 +97,20 @@ class ContactData extends Component {
                 console.log("Error ", error);
             });   
     }
+
+    inputChangedHanlder = (event, inputIdentifier) => {
+        console.log(event.target.value);
+        const updatedOrderForm = {
+            ...this.state.orderForm
+        }
+        const updatedInputElement = {
+            ...updatedOrderForm[inputIdentifier]
+        }
+        updatedInputElement.value = event.target.value;
+        updatedOrderForm[inputIdentifier] = updatedInputElement;
+        this.setState({orderForm: updatedOrderForm});
+    }
+
     render () {
 
         const formElements = [];
@@ -96,17 +122,18 @@ class ContactData extends Component {
         }
 
         let form = (
-            <form>
+            <form onSubmit={this.orderHandler}>
                 {
                     formElements.map(formElement => {
-                        return <Input 
+                        return <Input
                             key={formElement.id}
                             elementtype={formElement.config.elementType}
-                            elementConfig={formElement.config.elementConfig} 
-                            value={formElement.config.value}/>
+                            elementConfig={formElement.config.elementConfig}
+                            value={formElement.config.value} 
+                            changed={(event) => this.inputChangedHanlder(event, formElement.id)}/>
                     })
                 }
-                    <Button btnType="Success" clicked={this.orderHandler}>ORDER</Button>
+                    <Button btnType="Success">ORDER</Button>
                 </form>
         );
         if(this.state.loading) form = <Spinner/>
