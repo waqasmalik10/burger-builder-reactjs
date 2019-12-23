@@ -19,6 +19,7 @@ class ContactData extends Component {
                     required: true
                 }
                 , valid: false
+                , touched: false
             },
             email: {
                 elementType: 'input',
@@ -31,6 +32,7 @@ class ContactData extends Component {
                     required: true
                 }
                 , valid: false
+                , touched: false
             },
             street: {
                 elementType: 'input',
@@ -43,6 +45,7 @@ class ContactData extends Component {
                     required: true
                 }
                 , valid: false
+                , touched: false
             },
             postalCode: {
                 elementType: 'input',
@@ -57,6 +60,7 @@ class ContactData extends Component {
                     maxLength: 5
                 }
                 , valid: false
+                , touched: false
             },
             country: {
                 elementType: 'input',
@@ -69,6 +73,7 @@ class ContactData extends Component {
                     required: true
                 }
                 , valid: false
+                , touched: false
             },
             deliveryMethod: {
                 elementType: 'select',
@@ -148,6 +153,7 @@ class ContactData extends Component {
             ...updatedOrderForm[inputIdentifier]
         }
         updatedInputElement.value = event.target.value;
+        updatedInputElement.touched = true;
         updatedInputElement.valid = this.checkValidity(updatedInputElement.value, updatedInputElement.validation);
         updatedOrderForm[inputIdentifier] = updatedInputElement;
         console.log(updatedInputElement);
@@ -175,7 +181,8 @@ class ContactData extends Component {
                             value={formElement.config.value} 
                             changed={(event) => this.inputChangedHanlder(event, formElement.id)}
                             shouldValidate={formElement.config.validation}
-                            invalid={!formElement.config.valid}/>
+                            invalid={!formElement.config.valid}
+                            touched={formElement.config.touched}/>
                     })
                 }
                     <Button btnType="Success">ORDER</Button>
