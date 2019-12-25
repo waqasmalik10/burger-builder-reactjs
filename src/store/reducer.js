@@ -7,7 +7,8 @@ const initialState = {
         cheese: 0,
         meat: 0
     },
-    totalPrice: 4
+    totalPrice: 4,
+    purchaseable: false
 }
 
 const INGREDIENT_PRICES = {
@@ -17,25 +18,37 @@ const INGREDIENT_PRICES = {
     bacon: 0.6
 }
 
+const PurchaseableState = (ingredients) => {
+    const sum = Object.keys(ingredients).map(ingredient => {
+        return ingredients[ingredient]
+    }).reduce( (sum, el) => {return sum+el}, 0);
+    return sum>0;
+}
+
 const reducer = (state = initialState, action) => {
+    let updatedIngredients = null;
     switch(action.type) {
         case actionTypes.ADD_INGREDIENT: 
-            return {
-                ...state,
-                ingredients: {
+            updatedIngredients = {
                     ...state.ingredients,
                     [action.ingredientName]: state.ingredients[action.ingredientName] + 1
                 }
-                , totalPrice: state.totalPrice + INGREDIENT_PRICES[action.ingredientName]
-            }
-        case actionTypes.REMOVE_INGREDIENT:
             return {
                 ...state,
-                ingredients: {
-                    ...state.ingredients,
-                    [action.ingredientName]: state.ingredients[action.ingredientName] - 1
-                }
+                ingredients: updatedIngredients
+                , totalPrice: state.totalPrice + INGREDIENT_PRICES[action.ingredientName]
+                , purchaseable: PurchaseableState(updatedIngredients)
+            }
+        case actionTypes.REMOVE_INGREDIENT:
+            updatedIngredients = {
+                ...state.ingredients,
+                [action.ingredientName]: state.ingredients[action.ingredientName] - 1
+            }
+            return {
+                ...state,
+                ingredients: updatedIngredients
                 , totalPrice: state.totalPrice - INGREDIENT_PRICES[action.ingredientName]
+                , purchaseable: PurchaseableState(updatedIngredients)
             }
         default:
             return state;
