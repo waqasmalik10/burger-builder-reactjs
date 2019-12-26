@@ -2,10 +2,10 @@ import React, { Component } from 'react'
 import {connect} from 'react-redux'
 import Burger from '../../components/Burger/Burger'
 import Aux from '../../hoc/Aux/Aux'
+import axios from '../../axios-order'
 import BuildControls from '../../components/Burger/BuildControls/BuildControls'
 import Modal from '../../components/Modal/Modal'
 import OrderSummary from '../../components/Burger/OrderSummary/OrderSummary'
-import axios from '../../axios-order'
 import Spinner from '../../components/UI/Spinner/Spinners'
 import WithErrorHandler from '../../hoc/withErrorHandler/WithErrorHandler'
 import * as burgerBuilderActions from '../../store/actions/index'
@@ -13,9 +13,7 @@ import * as burgerBuilderActions from '../../store/actions/index'
 class BurgerBuilder extends Component {
 
     state = {
-        purchasing: false,
-        loading: false,
-        error: false
+        purchasing: false
     }
 
     componentDidMount() {
@@ -23,13 +21,7 @@ class BurgerBuilder extends Component {
     }
 
     componentWillMount() {
-        // axios.get('ingredients.json')
-        //     .then(response => {
-        //         this.setState({ingredients: response.data});
-        //     })
-        //     .catch(error => {
-        //         this.setState({error: true, loading: true, purchasing: true});
-        //     })
+        
     }
 
     updatePurchaseState = (ingredients) => {
@@ -88,7 +80,7 @@ class BurgerBuilder extends Component {
         return (
             <Aux>
                 <Modal show={this.state.purchasing} modalClosed={this.purchaseCancelHanlder}>
-                    { this.state.loading ? <Spinner /> : orderSummary }
+                    { orderSummary }
                 </Modal>
                 {burger}
             </Aux>
