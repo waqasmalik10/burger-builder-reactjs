@@ -135,16 +135,7 @@ class ContactData extends Component {
             },
             deliveryMethod: 'fastest'
         }
-        axios.post('/orders.json', order)
-            .then(response => {
-                this.setState({loading: false, purchasing: false});
-                console.log("Response " , response);
-                this.props.history.push('/checkout');
-            })
-            .catch(error => {
-                this.setState({loading: false, purchasing: false});
-                console.log("Error ", error);
-            });   
+        
     }
 
     inputChangedHanlder = (event, inputIdentifier) => {
