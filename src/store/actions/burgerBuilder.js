@@ -31,12 +31,12 @@ export const initIngredients = () => {
                 dispatch(setIngredients(response.data));
             })
             .catch(error => {
-                dispatch(fetchIngredientsFaile());
+                dispatch(fetchIngredientsFail());
             })
     }
 }
 
-export const fetchIngredientsFaile = () => {
+export const fetchIngredientsFail = () => {
     return {
         type: actionTypes.FETCH_INGREDIENTS_FAILED
     }
