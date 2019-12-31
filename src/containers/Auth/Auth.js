@@ -35,8 +35,9 @@ class Auth extends Component {
                 }
                 , valid: false
                 , touched: false
-            }
+            },
         }
+        , isSignup: true
     }
 
     inputChangedHanlder = (event, controlName) => {
@@ -68,6 +69,12 @@ class Auth extends Component {
         }
 
         return isValid;
+    }
+
+    switchAuthModeHandler = () => {
+        this.setState(prevState => {
+            return {isSignup: !prevState.isSignup}
+        });
     }
 
     submitHandler = (event) => {
@@ -103,6 +110,9 @@ class Auth extends Component {
                     {form}
                     <Button btnType="Success">SUBMIT</Button>
                 </form>
+                <Button 
+                    clicked={this.switchAuthModeHandler}
+                    btnType="Danger">SWITCH TO {this.state.isSignup ? "SIGNIN" : "SIGNUP"}</Button>
             </div>
         )
     }
