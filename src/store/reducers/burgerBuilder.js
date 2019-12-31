@@ -22,49 +22,59 @@ const PurchaseableState = (ingredients) => {
     return sum>0;
 }
 
+const addIngredients = (state, action) => {
+    const updIng = {
+        ...state.ingredients,
+        [action.ingredientName]: state.ingredients[action.ingredientName] + 1
+    }
+    const updatedState = {
+        ingredients: updIng
+        , totalPrice: state.totalPrice + INGREDIENT_PRICES[action.ingredientName]
+        , purchaseable: PurchaseableState(updIng)
+    }
+    return updateObject(state, updatedState)
+}
+
+const removeIngredients = (state, action) => {
+    const updtdIng = {
+        ...state.ingredients,
+        [action.ingredientName]: state.ingredients[action.ingredientName] - 1
+    }
+    const updatedObj = {
+        ingredients: updtdIng
+        , totalPrice: state.totalPrice - INGREDIENT_PRICES[action.ingredientName]
+        , purchaseable: PurchaseableState(updtdIng)
+    }
+    return updateObject(state, updatedObj)
+}
+
+const setIngredients = (state, action) => {
+    const updObj = {
+        ingredients: {
+            salad: action.ingredients.salad,
+            bacon: action.ingredients.bacon,
+            cheese: action.ingredients.cheese,
+            meat: action.ingredients.meat
+        },
+        error: false,
+        totalPrice: 4
+    }
+    return updateObject(state, updObj)
+}
+
 const reducer = (state = initialState, action) => {
-    let updatedIngredients = null;
     switch(action.type) {
-        case actionTypes.ADD_INGREDIENT: 
-            const updIng = {
-                ...state.ingredients,
-                [action.ingredientName]: state.ingredients[action.ingredientName] + 1
-            }
-            const updatedState = {
-                ingredients: updIng
-                , totalPrice: state.totalPrice + INGREDIENT_PRICES[action.ingredientName]
-                , purchaseable: PurchaseableState(updIng)
-            }
-            return updateObject(state, updatedState)
+        case actionTypes.ADD_INGREDIENT:
+            return addIngredients(state, action);
         case actionTypes.REMOVE_INGREDIENT:
-            const updtdIng = {
-                ...state.ingredients,
-                [action.ingredientName]: state.ingredients[action.ingredientName] - 1
-            }
-            const updatedObj = {
-                ingredients: updtdIng
-                , totalPrice: state.totalPrice - INGREDIENT_PRICES[action.ingredientName]
-                , purchaseable: PurchaseableState(updtdIng)
-            }
-            return updateObject(state, updatedObj)
+            return removeIngredients(state, action);
         case actionTypes.SET_INGREDIENTS:
-            const updObj = {
-                ingredients: {
-                    salad: action.ingredients.salad,
-                    bacon: action.ingredients.bacon,
-                    cheese: action.ingredients.cheese,
-                    meat: action.ingredients.meat
-                },
-                error: false,
-                totalPrice: 4
-            }
-            return updateObject(state, updObj)
+            return setIngredients(state, action);
         case actionTypes.FETCH_INGREDIENTS_FAILED:
             return updateObject(state, {error: true})
         default:
             return state;
     }
-    
 }
 
 export default reducer;
