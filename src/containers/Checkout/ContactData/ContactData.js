@@ -122,16 +122,8 @@ class ContactData extends Component {
             ingredients: this.props.ings,
             price: this.props.price,
             orderData: formData,
-            customer: {
-                name: 'Waqas Malik',
-                address: {
-                    street: 'Test street',
-                    city: 'Lahore',
-                    zip: '54000'
-                },
-                email: 'test@tests.com'
-            },
-            deliveryMethod: 'fastest'
+            deliveryMethod: 'fastest',
+            userId: this.props.userId
         }
         console.log("Token here ", this.props.token);
         this.props.onOrderBurger(order, this.props.token)
@@ -199,7 +191,8 @@ const mapStateToProps = state => {
         ings: state.burgerBuilder.ingredients,
         price: state.burgerBuilder.totalPrice,
         loading: state.order.loading,
-        token: state.auth.idToken
+        token: state.auth.idToken,
+        userId: state.auth.userId
     }
 }
 
