@@ -9,7 +9,8 @@ const toolbar = (props) => (
         <SideDrawerOpener clicked={props.clicked} />
         <Logo height="50%"/>
         <nav className={classes.DesktopOnly}>
-            <NavigationItems />
+            <NavigationItems 
+                isAuthenticated={props.isAuth} />
         </nav>
     </header>
 )
