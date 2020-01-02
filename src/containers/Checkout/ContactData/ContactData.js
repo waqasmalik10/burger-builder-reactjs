@@ -108,12 +108,10 @@ class ContactData extends Component {
             deliveryMethod: 'fastest',
             userId: this.props.userId
         }
-        console.log("Token here ", this.props.token);
         this.props.onOrderBurger(order, this.props.token)
     }
 
     inputChangedHanlder = (event, inputIdentifier) => {
-        console.log(event.target.value);
         const updatedInputElement = updateObject(this.state.orderForm[inputIdentifier], {
             value: event.target.value,
             touched: true,

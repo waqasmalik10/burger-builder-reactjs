@@ -17,7 +17,6 @@ class BurgerBuilder extends Component {
     }
 
     componentDidMount() {
-        console.log(this.props);
         this.props.onInitIngredient();
     }
 
@@ -26,9 +25,6 @@ class BurgerBuilder extends Component {
     }
 
     updatePurchaseState = (ingredients) => {
-        // const ingredients = {
-        //     ...this.state.ingredients
-        // }
         const sum = Object.keys(ingredients).map(ingredient => {
             return ingredients[ingredient]
         }).reduce( (sum, el) => {return sum+el}, 0);
@@ -42,7 +38,6 @@ class BurgerBuilder extends Component {
             this.props.onSetAuthRedirectPath("/checkout");
             this.props.history.push("/auth");
         }
-        
     }
 
     purchaseCancelHanlder = () => {
